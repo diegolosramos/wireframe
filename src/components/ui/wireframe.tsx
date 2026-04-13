@@ -1,7 +1,11 @@
+"use client";
+
 import type { ClassValue } from "clsx";
 import { cn } from "@/lib/utils";
+import { createContext, useContext, useEffect, useState } from "react";
 
 const defaults = {
+	mobileBreakpoint: 768,
 	safeAreas: true,
 	cssVariables: {
 		"--sticky-nav-height": 12,
@@ -45,6 +49,36 @@ const defaults = {
 	},
 } as const satisfies WireframeConfig;
 
+type WireframeContextValue = {
+	windowWidth: number;
+	isMobile: boolean;
+};
+
+const WireframeContext = createContext<WireframeContextValue | undefined>(
+	undefined,
+);
+
+export function useWireframe() {
+	const context = useContext(WireframeContext);
+	if (!context) {
+		throw new Error("useWireframe must be used within a Wireframe");
+	}
+	return context;
+}
+
+function useWindowWidth() {
+	const [width, setWidth] = useState<number | null>(null);
+
+	useEffect(() => {
+		setWidth(window.innerWidth);
+		const handler = () => setWidth(window.innerWidth);
+		window.addEventListener("resize", handler);
+		return () => window.removeEventListener("resize", handler);
+	}, []);
+
+	return width;
+}
+
 type WireframeCornerOptions = "navbar" | "sidebar";
 
 type DeepPartial<T> = {
@@ -52,6 +86,7 @@ type DeepPartial<T> = {
 };
 
 export type WireframeConfig = {
+	mobileBreakpoint: number;
 	safeAreas: boolean;
 	cssVariables: Record<WireframeCSSVariables, string | number>;
 	corners: {
@@ -307,6 +342,14 @@ function Wireframe({
 }: React.ComponentProps<"div"> & {
 	config?: DeepPartial<WireframeConfig>;
 }) {
+	const windowWidth = useWindowWidth();
+
+	if (!windowWidth) {
+		return null;
+	}
+
+	const isMobile =
+		windowWidth < (config?.mobileBreakpoint ?? defaults.mobileBreakpoint);
 	const safeAreasEnabled = config?.safeAreas ?? defaults.safeAreas;
 	const cssVars = { ...defaults.cssVariables, ...config?.cssVariables };
 	const corners = {
@@ -415,16 +458,18 @@ function Wireframe({
 			}
 			{...props}
 		>
-			{safeAreasEnabled === true && (
-				<>
-					<SafeAreaInsetTop />
-					<SafeAreaInsetBottom />
-					<SafeAreaInsetLeft />
-					<SafeAreaInsetRight />
-				</>
-			)}
+			<WireframeContext.Provider value={{ windowWidth, isMobile }}>
+				{safeAreasEnabled === true && (
+					<>
+						<SafeAreaInsetTop />
+						<SafeAreaInsetBottom />
+						<SafeAreaInsetLeft />
+						<SafeAreaInsetRight />
+					</>
+				)}
 
-			{children}
+				{children}
+			</WireframeContext.Provider>
 		</div>
 	);
 }
@@ -452,10 +497,19 @@ function WireframeNav({
 	className,
 	children,
 	position = "top",
+	hide,
 	...props
 }: React.ComponentProps<"div"> & {
 	position?: "top" | "bottom" | "responsive";
+	hide?: "mobile" | "desktop";
 }) {
+	const { isMobile } = useWireframe();
+	if (hide === "mobile" && isMobile) {
+		return null;
+	}
+	if (hide === "desktop" && !isMobile) {
+		return null;
+	}
 	if (position === "responsive") {
 		return (
 			<div
@@ -513,20 +567,96 @@ function WireframeNav({
 
 type WireframeSidebarPosition = "left" | "right";
 
+function WireframeSidebarHeader({
+	className,
+	children,
+	...props
+}: React.ComponentProps<"div">) {
+	return (
+		<div
+			className={cn("flex-none", className)}
+			data-slot="sidebar-header"
+			{...props}
+		>
+			{children}
+		</div>
+	);
+}
+
+function WireframeSidebarContent({
+	className,
+	children,
+	...props
+}: React.ComponentProps<"div">) {
+	return (
+		<div
+			className={cn(
+				"min-h-0 flex-1 overflow-y-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden",
+				className,
+			)}
+			data-slot="sidebar-content"
+			{...props}
+		>
+			{children}
+		</div>
+	);
+}
+
+function WireframeSidebarGroup({
+	className,
+	children,
+	...props
+}: React.ComponentProps<"div">) {
+	return (
+		<div
+			className={cn("flex flex-col", className)}
+			data-slot="sidebar-group"
+			{...props}
+		>
+			{children}
+		</div>
+	);
+}
+
+function WireframeSidebarFooter({
+	className,
+	children,
+	...props
+}: React.ComponentProps<"div">) {
+	return (
+		<div
+			className={cn("flex-none", className)}
+			data-slot="sidebar-footer"
+			{...props}
+		>
+			{children}
+		</div>
+	);
+}
+
 function WireframeSidebar({
 	className,
 	children,
 	collapsed = false,
 	position = "left",
+	hide,
 	...props
 }: React.ComponentProps<"div"> & {
 	collapsed?: boolean;
 	position?: WireframeSidebarPosition;
+	hide?: "mobile" | "desktop";
 }) {
+	const { isMobile } = useWireframe();
+	if (hide === "mobile" && isMobile) {
+		return null;
+	}
+	if (hide === "desktop" && !isMobile) {
+		return null;
+	}
 	return (
 		<div
 			className={cn(
-				"fixed z-50 overflow-scroll [scrollbar-width:none] [&::-webkit-scrollbar]:hidden",
+				"fixed z-50 flex flex-col overflow-hidden",
 				position === "left"
 					? [
 							[
@@ -565,9 +695,14 @@ export {
 	SafeAreaInsetLeft,
 	SafeAreaInsetRight,
 	SafeAreaInsetTop,
+	useWindowWidth,
 	Wireframe,
 	WireframeNav,
 	WireframeSidebar,
+	WireframeSidebarContent,
+	WireframeSidebarFooter,
+	WireframeSidebarGroup,
+	WireframeSidebarHeader,
 	type WireframeSidebarPosition,
 	WireframeStickyNav,
 };

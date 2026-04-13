@@ -3,6 +3,9 @@
 import { useState } from "react";
 import {
 	WireframeSidebar,
+	WireframeSidebarContent,
+	WireframeSidebarFooter,
+	WireframeSidebarHeader,
 	type WireframeSidebarPosition,
 } from "@/components/ui/wireframe";
 
@@ -16,8 +19,15 @@ export function Sidebar() {
 
 	return (
 		<WireframeSidebar collapsed={collapsed} position={position}>
-			<div className="bg-(image:--crossed-gradient) flex min-h-full w-full items-center justify-center bg-pink-500/40">
-				<div className="flex flex-col gap-4">
+			<WireframeSidebarHeader>
+				<div className="bg-(image:--crossed-gradient) flex w-full items-center justify-center bg-pink-500/40 p-4">
+					<div className="border-2 border-black bg-white px-2 font-bold">
+						HEADER
+					</div>
+				</div>
+			</WireframeSidebarHeader>
+			<WireframeSidebarContent>
+				<div className="bg-(image:--crossed-gradient) flex min-h-full w-full flex-col items-center justify-center gap-4 bg-pink-500/40 p-4">
 					<button onClick={handleClick} type="button">
 						Click me
 					</button>
@@ -34,12 +44,14 @@ export function Sidebar() {
 						<option value="right">Right</option>
 					</select>
 				</div>
-				{/* <div className="flex flex-col">
-					<div className="h-[800px] w-4 bg-red-600">a</div>
-					<div className="h-[500px] w-4 bg-blue-600">b</div>
-					<div className="h-[500px] w-4 bg-green-600">c</div>
-				</div> */}
-			</div>
+			</WireframeSidebarContent>
+			<WireframeSidebarFooter>
+				<div className="bg-(image:--crossed-gradient) flex w-full items-center justify-center bg-pink-500/40 p-4">
+					<div className="border-2 border-black bg-white px-2 font-bold">
+						FOOTER
+					</div>
+				</div>
+			</WireframeSidebarFooter>
 		</WireframeSidebar>
 	);
 }

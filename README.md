@@ -52,7 +52,13 @@ export default function RootLayout({
 
 ```tsx
 // app/page.tsx
-import { WireframeNav } from "@/components/ui/wireframe";
+import {
+	WireframeNav,
+	WireframeSidebar,
+	WireframeSidebarContent,
+	WireframeSidebarFooter,
+	WireframeSidebarHeader,
+} from "@/components/ui/wireframe";
 
 export default function Page() {
 	return (
@@ -63,6 +69,11 @@ export default function Page() {
 					<nav>Navigation</nav>
 				</div>
 			</WireframeNav>
+			<WireframeSidebar position="left">
+				<WireframeSidebarHeader>Logo</WireframeSidebarHeader>
+				<WireframeSidebarContent>Nav links</WireframeSidebarContent>
+				<WireframeSidebarFooter>User</WireframeSidebarFooter>
+			</WireframeSidebar>
 			<div className="p-4">
 				{/* Your content - margins adjust automatically */}
 			</div>
@@ -120,7 +131,7 @@ Customize dimensions and spacing by passing `config.cssVariables`. All values sh
 			"--top-nav-bottom-offset": 0,
 
 			// BOTTOM NAV
-			"--bottom-nav-height": 8,
+			"--bottom-nav-height": 14,
 			"--bottom-nav-left-offset": 0,
 			"--bottom-nav-right-offset": 0,
 			"--bottom-nav-top-offset": 0,
@@ -158,7 +169,7 @@ Root component that provides context. Wrap your app at the layout level.
 
 **Props:**
 - `config?` - Configuration object with the following optional properties:
-  - `safeAreas?` - Enable PWA safe area insets (default: `false`)
+  - `safeAreas?` - Enable PWA safe area insets (default: `true`)
   - `corners?` - Control corner behavior for fixed and responsive navs
     ```tsx
     {
@@ -186,6 +197,7 @@ Navbar component that can be fixed or responsive.
   - `"top"`: Fixed navbar at the top
   - `"bottom"`: Fixed navbar at the bottom
   - `"responsive"`: Positions at bottom on mobile and top on desktop (breakpoint-based)
+- `hide`: `"mobile"` | `"desktop"` — conditionally render the nav only on one viewport size
 
 ### `<WireframeStickyNav>`
 
@@ -193,11 +205,44 @@ Sticky navbar that scrolls with content until reaching the top.
 
 ### `<WireframeSidebar>`
 
-Sidebar with collapsed/expanded states.
+Sidebar with collapsed/expanded states. Use the slot subcomponents inside to structure the layout.
 
 **Props:**
 - `position`: `"left"` | `"right"` (default: `"left"`)
 - `collapsed`: `boolean` (default: `false`)
+- `hide`: `"mobile"` | `"desktop"` — conditionally render the sidebar only on one viewport size
+
+```tsx
+<WireframeSidebar position="left" collapsed={false}>
+  <WireframeSidebarHeader>
+    {/* Logo, workspace switcher, etc. */}
+  </WireframeSidebarHeader>
+  <WireframeSidebarContent>
+    <WireframeSidebarGroup>
+      {/* Nav links */}
+    </WireframeSidebarGroup>
+  </WireframeSidebarContent>
+  <WireframeSidebarFooter>
+    {/* User profile, settings, etc. */}
+  </WireframeSidebarFooter>
+</WireframeSidebar>
+```
+
+### `<WireframeSidebarHeader>`
+
+`flex-none` slot for the top of the sidebar (logo, branding, workspace switcher).
+
+### `<WireframeSidebarContent>`
+
+Scrollable `flex-1` slot for the main sidebar body. Hides the scrollbar visually.
+
+### `<WireframeSidebarGroup>`
+
+`flex flex-col` grouping container for sections within `<WireframeSidebarContent>`.
+
+### `<WireframeSidebarFooter>`
+
+`flex-none` slot for the bottom of the sidebar (user profile, sign out, etc.).
 
 ## Advanced Usage
 
