@@ -1,6 +1,6 @@
 # Wireframe
 
-A component system for building fixed/sticky navigation layouts with automatic content spacing. Define your navbar and sidebar dimensions once, and the content area adjusts automatically.
+Building layouts with fixed navbars, collapsible sidebars, and PWA safe areas means managing a web of interdependent CSS calculations that break whenever anything changes. Wireframe handles it all declaratively — define your dimensions once, and every margin, offset, and safe-area inset adjusts automatically.
 
 [![Wireframe Preview](/public/og.png)](https://ramoz.dev/wireframe/playground)
 
@@ -71,6 +71,9 @@ All configuration is optional and uses sensible defaults. Configuration is passe
 ### Corner Behavior
 
 Control which element occupies each corner when navbars and sidebars overlap. Default is `"sidebar"` for all corners.
+
+- `"sidebar"` — the sidebar runs full height; the navbar is inset so it starts where the sidebar ends.
+- `"navbar"` — the navbar runs full width; the sidebar is inset so it starts below/above the navbar.
 
 ```tsx
 <Wireframe
@@ -216,6 +219,25 @@ Scrollable `flex-1` slot for the main sidebar body. Hides the scrollbar visually
 
 `flex-none` slot for the bottom of the sidebar (user profile, sign out, etc.).
 
+### Hooks
+
+#### `useWireframe()`
+
+Returns `{ windowWidth: number, isMobile: boolean }` from the nearest `<Wireframe>` ancestor. Use this to build custom components that respond to the current viewport. Throws if called outside a `<Wireframe>`.
+
+```tsx
+import { useWireframe } from "@/components/ui/wireframe";
+
+function MyNav() {
+	const { isMobile } = useWireframe();
+	return <nav>{isMobile ? <HamburgerMenu /> : <FullNav />}</nav>;
+}
+```
+
+#### `useWindowWidth()`
+
+Returns the current `window.innerWidth` as `number | null`. Returns `null` on the server and before the first client render. Can be used independently of `<Wireframe>`.
+
 ## Advanced Usage
 
 ### Multiple Wireframe Instances
@@ -226,6 +248,8 @@ Create separate wireframe configurations for different sections of your app.
 
 #### Example: Home layout (`app/(home)/layout.tsx`)
 
+A dashboard-style layout with sidebars, a top nav, and a bottom nav. Sidebars own all four corners.
+
 ```tsx
 import { Wireframe } from "@/components/ui/wireframe";
 
@@ -234,19 +258,16 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 		<Wireframe
 			config={{
 				corners: {
-					topLeft: "navbar",
-					topRight: "navbar",
-					bottomLeft: "navbar",
-					bottomRight: "navbar",
+					topLeft: "sidebar",
+					topRight: "sidebar",
+					bottomLeft: "sidebar",
+					bottomRight: "sidebar",
 				},
 				cssVariables: {
-					"--sticky-nav-height": 12,
-					"--top-nav-height": 16,
-					"--bottom-nav-height": 8,
+					"--top-nav-height": 14,
+					"--bottom-nav-height": 14,
 					"--left-sidebar-width-collapsed": 16,
 					"--left-sidebar-width-expanded": 52,
-					"--right-sidebar-width-expanded": 52,
-					"--right-sidebar-width-collapsed": 16,
 				},
 			}}
 		>
@@ -258,6 +279,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
 #### Example: Blog layout (`app/(blog)/layout.tsx`)
 
+A minimal reading layout with only a sticky nav — no sidebars, no bottom nav.
+
 ```tsx
 import { Wireframe } from "@/components/ui/wireframe";
 
@@ -265,20 +288,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 	return (
 		<Wireframe
 			config={{
-				corners: {
-					topLeft: "navbar",
-					topRight: "navbar",
-					bottomLeft: "navbar",
-					bottomRight: "navbar",
-				},
 				cssVariables: {
 					"--sticky-nav-height": 12,
-					"--top-nav-height": 16,
-					"--bottom-nav-height": 8,
-					"--left-sidebar-width-collapsed": 16,
-					"--left-sidebar-width-expanded": 52,
-					"--right-sidebar-width-expanded": 52,
-					"--right-sidebar-width-collapsed": 16,
 				},
 			}}
 		>
@@ -325,7 +336,7 @@ Without safe area handling, your fixed navigation bars and sidebars could be par
 The wireframe component uses CSS `env(safe-area-inset-*)` variables to automatically add padding around your layout:
 
 1. **Automatic spacing adjustments**: All navbars and sidebars automatically include safe area insets in their positioning calculations
-2. **Optional colored overlays**: Enable `safeAreas` to add matching background overlays that fill the unsafe areas
+2. **Colored overlays**: Safe area overlays are enabled by default (`safeAreas: true`). They fill unsafe regions with your background color to prevent content from bleeding under notches or home indicators.
 
 ### Safe Area Insets
 
@@ -348,62 +359,56 @@ right: calc(var(--right-sidebar-right-offset) + env(safe-area-inset-right))
 
 This ensures your navigation elements are never obscured by device hardware.
 
-### Enabling Safe Area Overlays
+### Disabling Safe Area Overlays
 
-For a seamless edge-to-edge experience, enable safe area overlays that fill the unsafe regions with your background color:
+Safe area overlays are **enabled by default**. They add four fixed-position overlays (top, bottom, left, right) that:
+- Match your app's background color (uses `bg-background`)
+- Are `pointer-events-none` so they don't interfere with touch/click events
+- Have the highest z-index (`z-99999`) to ensure they're always on top
+- Fill only the unsafe areas using `env(safe-area-inset-*)`
+
+To disable them:
 
 ```tsx
 <Wireframe
 	config={{
-		safeAreas: true,
+		safeAreas: false,
 	}}
 >
 	{children}
 </Wireframe>
 ```
 
-This adds four fixed-position overlays (top, bottom, left, right) that:
-- Match your app's background color (uses `bg-background`)
-- Are `pointer-events-none` so they don't interfere with touch/click events
-- Have the highest z-index (`z-99999`) to ensure they're always on top
-- Fill only the unsafe areas using `env(safe-area-inset-*)`
-
 ### PWA Meta Configuration
 
-To enable safe area support in your PWA, add the following to your `<head>`:
+To enable safe area support in your PWA, export a `viewport` from your root layout (Next.js App Router) and use the `viewport` export instead of a manual `<meta>` tag:
 
 ```tsx
 // app/layout.tsx
+import type { Viewport } from "next";
+
+export const viewport: Viewport = {
+	width: "device-width",
+	initialScale: 1,
+	maximumScale: 1,
+	viewportFit: "cover",
+	userScalable: false,
+};
+
 export default function RootLayout({ children }) {
 	return (
 		<html>
-			<head>
-				<meta 
-					name="viewport" 
-					content="width=device-width, initial-scale=1, viewport-fit=cover"
-				/>
-			</head>
-			<body>
-				<Wireframe config={{ safeAreas: true }}>
-					{children}
-				</Wireframe>
-			</body>
+			<body>{children}</body>
 		</html>
 	);
 }
 ```
 
-The `viewport-fit=cover` directive is critical—it tells the browser to extend your content into the safe areas, allowing the wireframe component to handle them properly.
+The `viewport-fit: cover` directive is critical — it tells the browser to extend your content into the safe areas. Each route-group layout's `<Wireframe>` will then handle safe area overlays automatically (they are on by default).
 
-### When to Use Safe Areas
+### When to Disable Safe Areas
 
-**Enable safe areas (`safeAreas: true`) when:**
-- Building a PWA or mobile-first app
-- Using edge-to-edge design with colored backgrounds
-- Your navbars/sidebars have distinct background colors
-- Targeting devices with notches or rounded corners
-
-**You can skip safe areas when:**
+Safe areas are on by default. You may want to disable them (`safeAreas: false`) when:
 - Building desktop-only applications
 - Using transparent navigation elements
 - Your app already has sufficient padding/margins
@@ -427,6 +432,14 @@ import {
 These components can be used outside the `<Wireframe>` context for custom layouts.
 
 ## Caveats
+
+### Server-Side Rendering
+
+`<Wireframe>` renders nothing until it knows the window width. This means the entire component tree — including all children — is suppressed on the server and during the initial client render before hydration completes.
+
+This is intentional: rendering the wrong layout variant (mobile vs. desktop) on the server would cause a hydration mismatch. The trade-off is that content inside `<Wireframe>` is not present in the initial HTML.
+
+**If SEO matters** for your content, place that content outside the `<Wireframe>` or consider deferring only the layout chrome (navbars/sidebars) into client components.
 
 ### Full-Height Content
 
