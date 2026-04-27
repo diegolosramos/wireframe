@@ -1,6 +1,7 @@
 import "@/styles/globals.css";
 
 import type { Metadata, Viewport } from "next";
+import { RoutesButton } from "@/components/wireframe/routes-button";
 
 export const viewport: Viewport = {
 	width: "device-width",
@@ -20,7 +21,10 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
 	return (
 		<html className="overscroll-none" lang="en" suppressHydrationWarning>
-			<body>{children}</body>
+			<body>
+				{children}
+				<RoutesButton />
+			</body>
 		</html>
 	);
 }
