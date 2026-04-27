@@ -14,7 +14,7 @@ export function SidebarStatic() {
 				</div>
 			</WireframeSidebarHeader>
 			<WireframeSidebarContent>
-				<div className="bg-(image:--crossed-gradient) flex w-full items-center justify-center bg-lime-500/40 p-4">
+				<div className="bg-(image:--crossed-gradient) flex min-h-full w-full items-center justify-center bg-lime-500/40 p-4">
 					Sidebar
 				</div>
 			</WireframeSidebarContent>

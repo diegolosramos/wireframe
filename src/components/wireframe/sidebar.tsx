@@ -29,7 +29,7 @@ export function Sidebar() {
 			<WireframeSidebarContent>
 				<div className="bg-(image:--crossed-gradient) flex min-h-full w-full flex-col items-center justify-center gap-4 bg-pink-500/40 p-4">
 					<button onClick={handleClick} type="button">
-						Click me
+						Collapse
 					</button>
 					<div className="border-2 border-black bg-white px-2 font-bold">
 						SIDEBAR
