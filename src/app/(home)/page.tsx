@@ -1,61 +1,100 @@
-import { ResponsiveNav } from "@/components/wireframe/responsive-nav";
-import { Sidebar } from "@/components/wireframe/sidebar";
+import Link from "next/link";
+import { type RoutePreviewKind, routeCatalog } from "@/lib/route-catalog";
 
-export default function Page() {
-	return (
-		<div className="bg-(image:--crossed-gradient)">
-			<ResponsiveNav />
-			<Sidebar />
-			<div className="border-2 border-black bg-white px-2 font-bold">
-				Lorem ipsum dolor sit amet, consectetur adipisicing elit. Hic eos
-				ratione dolor illo quam aspernatur et exercitationem aut excepturi minus
-				laborum tempora itaque dolni et numquam, necessitatibus minus assumenda
-				sint atque inventore ipsa a esse dolor error sed praesentium quos,
-				molestiae cumque sequi nemo pariatur earum quo! Fuga, consequuntur!
-				Architecto veritatis pariatur recusandae, id suscipit consequatur
-				itaque, voluptates non reiciendis provident laudantium repellendus dolor
-				quas commodi! Accusamus sequi delectus cum quisquam cumque quis nulla
-				reprehenderit iusto cupiditate! Quisquam, laboriosam earum iste
-				consequuntur sint adipisci sapiente quae ratione itaque molestias cumque
-				officia? Aliquid doloribus doloremque exercitationem cum sed! Iure
-				accusamus hic eveniet dolores culpa, doloribus rerum minus dolore
-				debitis cumque nostrum inventore laboriosam voluptate minima sint maxime
-				repellat. Ad mollitia architecto dolor nemo laboriosam cum nesciunt modi
-				magnam corporis libero tempora reiciendis, doloribus animi! Laudantium,
-				necessitatibus molestias. Ipsam, pariatur temporibus quae modi nihil
-				optio neque maiores facere ducimus! Cupiditate magnam velit rerum fuga
-				error pariatur, ut maiores. Porro veritatis distinctio accusantium quis
-				in consequatur cupiditate iure. Totam adipisci at iste magnam tempora
-				suscipit fugit ipsam exercitationem? Modi atque dignissimos, beatae
-				ratione quibusdam quasi quia dolorum neque quidem optio blanditiis sunt
-				magni suscipit, tenetur magnam quam saepe recusandae doloribus expedita
-				quisquam velit repellendus quos. Tempora quaerat repudiandae deleniti
-				optio repellat minima libero cum quae odit? Cupiditate animi, beatae hic
-				delectus ullam reprehenderit, error nobis doloribus vel ratione itaque.
-				Nesciunt distinctio id voluptates porro. Aut reiciendis quas dolore
-				commodi quae magnam vitae harum doloremque quos recusandae assumenda,
-				eos alias nihil placeat ipsa? Officia quas excepturi cupiditate dolorem!
-				Eaque dolor, asperiores sunt dolorum velit earum delectus iusto quod
-				odio quam optio harum, error aspernatur enim at aliquam voluptatibus
-				similique natus ex? Velit hic doloremque quos necessitatibus dolore
-				explicabo sapiente alias, soluta voluptate magnam nihil cupiditate
-				deserunt deleniti aut accusantium mollitia tempora esse tenetur illo ab
-				obcaecati provident, vel eligendi! Rerum recusandae dolore harum enim
-				natus consequuntur amet vel accusamus temporibus quasi illo laboriosam,
-				quis perspiciatis voluptate? Similique ratione sunt aperiam dolorum, vel
-				est numquam enim! Quibusdam quisquam quos possimus laboriosam quod earum
-				animi explicabo pariatur accusamus incidunt, vitae doloremque
-				consequuntur in minus ut. Corporis incidunt aliquid quisquam mollitia,
-				architecto, voluptas quidem nostrum suscipit veritatis quos saepe ipsa,
-				fuga officiis possimus impedit eos modi pariatur? Eos ab fugit
-				distinctio alias iusto est corrupti totam aliquid eveniet necessitatibus
-				aspernatur magnam explicabo reprehenderit quod numquam id, deleniti
-				architecto doloremque autem odit voluptate delectus ex hic quibusdam. Ad
-				ducimus culpa sequi dolores corrupti. Consequatur a accusantium,
-				consectetur nulla reiciendis veritatis, at nam sed voluptatem saepe non
-				incidunt est omnis optio, facilis expedita. Aperiam laboriosam est ex
-				amet, magni hic quod dolore nobis voluptates porro numquam.
+function RoutePreview({ preview }: { preview: RoutePreviewKind }) {
+	if (preview === "top-bottom") {
+		return (
+			<div className="relative h-32 overflow-hidden rounded-md border-2 border-black bg-zinc-100">
+				<div className="absolute inset-x-0 top-0 h-6 border-black border-b-2 bg-fuchsia-500/40" />
+				<div className="absolute inset-x-0 bottom-0 h-6 border-black border-t-2 bg-blue-600/40" />
+				<div className="absolute inset-x-4 top-8 bottom-8 rounded-sm border border-black/40 border-dashed bg-white/70" />
 			</div>
+		);
+	}
+
+	if (preview === "sidebar-bottom") {
+		return (
+			<div className="relative h-32 overflow-hidden rounded-md border-2 border-black bg-zinc-100">
+				<div className="absolute inset-y-0 left-0 z-10 w-9 border-black border-r-2 bg-white" />
+				<div className="absolute inset-y-0 left-0 z-10 w-9 border-black border-r-2 bg-pink-500/40" />
+				<div className="absolute inset-x-0 bottom-0 h-6 border-black border-t-2 bg-blue-600/40" />
+				<div className="absolute top-3 right-3 bottom-8 left-11 rounded-sm border border-black/40 border-dashed bg-white/70" />
+			</div>
+		);
+	}
+
+	if (preview === "sticky-sidebar-bottom") {
+		return (
+			<div className="relative h-32 overflow-hidden rounded-md border-2 border-black bg-zinc-100">
+				<div className="absolute inset-x-0 top-0 h-6 border-black border-b-2 bg-red-300" />
+				<div className="absolute inset-y-0 left-0 z-10 w-9 border-black border-r-2 bg-white" />
+				<div className="absolute inset-y-0 left-0 z-10 w-9 border-black border-r-2 bg-lime-500/40" />
+				<div className="absolute inset-x-0 bottom-0 h-6 border-black border-t-2 bg-blue-600/40" />
+				<div className="absolute top-8 right-3 bottom-8 left-11 rounded-sm border border-black/40 border-dashed bg-white/70" />
+			</div>
+		);
+	}
+
+	if (preview === "header-sticky-sidebar") {
+		return (
+			<div className="relative h-32 overflow-hidden rounded-md border-2 border-black bg-zinc-100">
+				<div className="absolute inset-x-0 top-0 h-5 border-black border-b-2 bg-green-600/40" />
+				<div className="absolute inset-x-0 top-5 h-5 border-black border-b-2 bg-fuchsia-500/40" />
+				<div className="absolute inset-y-0 top-10 left-0 w-9 border-black border-r-2 bg-pink-500/40" />
+				<div className="absolute top-12 right-3 bottom-3 left-11 rounded-sm border border-black/40 border-dashed bg-white/70" />
+			</div>
+		);
+	}
+
+	if (preview === "sticky-layers") {
+		return (
+			<div className="relative h-32 overflow-hidden rounded-md border-2 border-black bg-zinc-100">
+				<div className="absolute inset-x-0 top-0 h-6 border-black border-b-2 bg-red-300" />
+				<div className="absolute inset-x-2 top-7 h-5 rounded-sm border border-black bg-blue-500/70" />
+				<div className="absolute inset-x-4 top-13 h-5 rounded-sm border border-black bg-green-500/70" />
+				<div className="absolute inset-y-0 left-0 z-10 w-9 border-black border-r-2 bg-white" />
+				<div className="absolute inset-y-0 left-0 z-10 w-9 border-black border-r-2 bg-lime-500/40" />
+				<div className="absolute inset-x-0 bottom-0 h-6 border-black border-t-2 bg-blue-600/40" />
+			</div>
+		);
+	}
+
+	return (
+		<div className="relative h-32 overflow-hidden rounded-md border-2 border-black bg-zinc-100">
+			<div className="absolute inset-x-0 top-0 h-6 border-black border-b-2 bg-fuchsia-500/40" />
+			<div className="absolute inset-y-0 top-6 left-0 w-9 border-black border-r-2 bg-pink-500/40" />
+			<div className="absolute top-8 right-3 bottom-3 left-11 rounded-sm border border-black/40 border-dashed bg-white/70" />
 		</div>
+	);
+}
+
+export default function NavigationPage() {
+	return (
+		<main className="bg-(image:--crossed-gradient) min-h-screen p-4 sm:p-8">
+			<div className="mx-auto max-w-6xl">
+				<header className="mb-6 rounded-lg border-2 border-black bg-white p-4 shadow-[6px_6px_0_0_#000] sm:mb-8">
+					<h1 className="font-black text-2xl sm:text-3xl">Route Explorer</h1>
+					<p className="mt-2 text-sm sm:text-base">
+						One place to jump between every route and quickly compare each
+						wireframe layout pattern.
+					</p>
+				</header>
+
+				<section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+					{routeCatalog.map((item) => (
+						<Link href={item.href} key={item.href}>
+							<article className="flex h-full flex-col gap-3 rounded-lg border-2 border-black bg-white p-3 shadow-[4px_4px_0_0_#000]">
+								<RoutePreview preview={item.preview} />
+								<div>
+									<h2 className="font-extrabold text-lg">{item.title}</h2>
+									<p className="font-mono text-xs text-zinc-600">{item.href}</p>
+								</div>
+								<p className="text-sm text-zinc-800">{item.description}</p>
+							</article>
+						</Link>
+					))}
+				</section>
+			</div>
+		</main>
 	);
 }

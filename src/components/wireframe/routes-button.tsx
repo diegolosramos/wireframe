@@ -6,7 +6,7 @@ export function RoutesButton() {
 		<Link
 			aria-label="Open routes navigation"
 			className="hover:-translate-y-0.5 fixed right-[calc(env(safe-area-inset-right)+1rem)] bottom-[calc(env(safe-area-inset-bottom)+1rem)] z-1000 inline-flex size-12 items-center justify-center rounded-full border-2 border-black bg-white shadow-[4px_4px_0_0_#000] transition-transform active:translate-y-0"
-			href="/navigation"
+			href="/"
 		>
 			<Compass aria-hidden="true" className="size-5" />
 		</Link>

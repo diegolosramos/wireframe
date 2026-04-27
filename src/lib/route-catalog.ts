@@ -15,13 +15,6 @@ export type RouteCatalogItem = {
 
 export const routeCatalog: RouteCatalogItem[] = [
 	{
-		href: "/",
-		title: "Home",
-		description:
-			"Responsive nav with a collapsible sidebar. Useful for adaptable app shells that need compact mobile navigation and rich desktop controls.",
-		preview: "responsive-sidebar",
-	},
-	{
 		href: "/layout1",
 		title: "Layout 1",
 		description:
