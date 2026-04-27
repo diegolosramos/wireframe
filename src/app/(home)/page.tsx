@@ -73,10 +73,10 @@ export default function NavigationPage() {
 		<main className="bg-(image:--crossed-gradient) min-h-screen p-4 sm:p-8">
 			<div className="mx-auto max-w-6xl">
 				<header className="mb-6 rounded-lg border-2 border-black bg-white p-4 shadow-[6px_6px_0_0_#000] sm:mb-8">
-					<h1 className="font-black text-2xl sm:text-3xl">Route Explorer</h1>
+					<h1 className="font-black text-2xl sm:text-3xl">Wireframe</h1>
 					<p className="mt-2 text-sm sm:text-base">
-						One place to jump between every route and quickly compare each
-						wireframe layout pattern.
+						Explore different navigation and layout configurations using
+						wireframe.
 					</p>
 				</header>
 
