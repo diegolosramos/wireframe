@@ -2,7 +2,7 @@
 
 A component system for building fixed/sticky navigation layouts with automatic content spacing. Define your navbar and sidebar dimensions once, and the content area adjusts automatically.
 
-[![Wireframe Preview](/public/og.png)](https://zdiego.com/wireframe/playground)
+[![Wireframe Preview](/public/og.png)](https://ramoz.dev/wireframe/playground)
 
 ## What It Does
 
@@ -12,6 +12,20 @@ A component system for building fixed/sticky navigation layouts with automatic c
 - **CSS variable-driven**: Configure all dimensions and offsets through CSS variables
 - **Multiple instances**: Use different configurations for different sections (e.g., blog vs. dashboard)
 - **PWA support**: Automatic safe area handling for mobile devices with notches, rounded corners, and home indicators
+
+## Examples
+
+Live demos of every layout pattern:
+
+| Layout | Description |
+|--------|-------------|
+| [Layout 1](https://ramoz.dev/wireframe/layout1) | Bottom navigation paired with a collapsible sidebar |
+| [Layout 2](https://ramoz.dev/wireframe/layout2) | Sticky top bar with static sidebar and bottom nav around nested scroll regions |
+| [Layout 3](https://ramoz.dev/wireframe/layout3) | Top and bottom navigation at the same time |
+| [Layout 4](https://ramoz.dev/wireframe/layout4) | Responsive nav that shifts position by viewport with a collapsible sidebar |
+| [Layout 5](https://ramoz.dev/wireframe/layout5) | Header plus sticky nav and sidebar |
+| [Layout 6](https://ramoz.dev/wireframe/layout6) | Nested sticky layers with static sidebar and bottom nav |
+| [Blog](https://ramoz.dev/wireframe/blog) | Responsive nav and sidebar in a separate route group |
 
 ## Installation
 
@@ -82,6 +96,17 @@ export default function Page() {
 }
 ```
 
+> **⚠️ `h-full` does not work inside `<Wireframe>`.**
+> The root is `position: relative`, not a flex/grid container. Use `absolute inset-0` to fill the viewport instead:
+> ```tsx
+> {/* ❌ Won't work */}
+> <div className="h-full">...</div>
+>
+> {/* ✅ Use this */}
+> <div className="absolute inset-0">...</div>
+> ```
+> You'll need to handle overflow and scrolling manually when using `absolute inset-0`.
+
 ## Configuration
 
 All configuration is optional and uses sensible defaults. Configuration is passed via a single `config` prop.
@@ -124,7 +149,7 @@ Customize dimensions and spacing by passing `config.cssVariables`. All values sh
 			"--sticky-nav-top-offset": 0,
 
 			// TOP NAV
-			"--top-nav-height": 16,
+			"--top-nav-height": 14,
 			"--top-nav-left-offset": 0,
 			"--top-nav-right-offset": 0,
 			"--top-nav-top-offset": 0,
@@ -183,6 +208,7 @@ Root component that provides context. Wrap your app at the layout level.
       };
     }
     ```
+  - `mobileBreakpoint?` - Viewport width (px) below which `isMobile` is `true`, used by `hide="mobile"` / `hide="desktop"` on `WireframeNav` and `WireframeSidebar` (default: `768`)
   - `cssVariables?` - Override default dimensions and spacing
     ```tsx
     Partial<Record<WireframeCSSVariables, string | number>>
@@ -248,27 +274,34 @@ Scrollable `flex-1` slot for the main sidebar body. Hides the scrollbar visually
 
 ### Multiple Wireframe Instances
 
-Create separate wireframe configurations for different sections of your app (e.g., blog vs. dashboard):
+Create separate wireframe configurations for different sections of your app.
 
-> **Note:** When using multiple wireframes, do NOT add a `<Wireframe>` at the root layout because it will conflict with section-specific wireframes.
+> **Note (Next.js):** Do **not** place `<Wireframe>` in your root `app/layout.tsx` if different sections need different configurations. Instead, use [route groups](https://nextjs.org/docs/app/building-your-application/routing/route-groups) (e.g., `(home)`, `(blog)`) and place a `<Wireframe>` in each group's `layout.tsx`. This ensures each section gets its own isolated configuration without conflicts.
 
-#### Example: Blog Layout
+#### Example: Home layout (`app/(home)/layout.tsx`)
 
 ```tsx
-// components/wireframe/blog-wireframe.tsx
 import { Wireframe } from "@/components/ui/wireframe";
 
-export function BlogWireframe({ children }: { children: React.ReactNode }) {
+export default function Layout({ children }: { children: React.ReactNode }) {
 	return (
 		<Wireframe
 			config={{
+				corners: {
+					topLeft: "navbar",
+					topRight: "navbar",
+					bottomLeft: "navbar",
+					bottomRight: "navbar",
+					responsive: { left: "navbar", right: "navbar" },
+				},
 				cssVariables: {
-					// STICKY NAV
 					"--sticky-nav-height": 12,
-
-					// LEFT SIDEBAR
+					"--top-nav-height": 16,
+					"--bottom-nav-height": 8,
 					"--left-sidebar-width-collapsed": 16,
 					"--left-sidebar-width-expanded": 52,
+					"--right-sidebar-width-expanded": 52,
+					"--right-sidebar-width-collapsed": 16,
 				},
 			}}
 		>
@@ -278,50 +311,36 @@ export function BlogWireframe({ children }: { children: React.ReactNode }) {
 }
 ```
 
-```tsx
-// app/(blog)/layout.tsx
-import { BlogWireframe } from "@/components/wireframe/blog-wireframe";
-
-export default function BlogLayout({ children }: { children: React.ReactNode }) {
-	return <BlogWireframe>{children}</BlogWireframe>;
-}
-```
-
-#### Example: Dashboard Layout
+#### Example: Blog layout (`app/(blog)/layout.tsx`)
 
 ```tsx
-// components/wireframe/dashboard-wireframe.tsx
 import { Wireframe } from "@/components/ui/wireframe";
 
-export function DashboardWireframe({ children }: { children: React.ReactNode }) {
+export default function Layout({ children }: { children: React.ReactNode }) {
 	return (
 		<Wireframe
 			config={{
+				corners: {
+					topLeft: "navbar",
+					topRight: "navbar",
+					bottomLeft: "navbar",
+					bottomRight: "navbar",
+					responsive: { left: "navbar", right: "navbar" },
+				},
 				cssVariables: {
-					// TOP NAV
+					"--sticky-nav-height": 12,
 					"--top-nav-height": 16,
-
-					// BOTTOM NAV
 					"--bottom-nav-height": 8,
-
-					// LEFT SIDEBAR
 					"--left-sidebar-width-collapsed": 16,
 					"--left-sidebar-width-expanded": 52,
+					"--right-sidebar-width-expanded": 52,
+					"--right-sidebar-width-collapsed": 16,
 				},
 			}}
 		>
 			{children}
 		</Wireframe>
 	);
-}
-```
-
-```tsx
-// app/(dashboard)/layout.tsx
-import { DashboardWireframe } from "@/components/wireframe/dashboard-wireframe";
-
-export default function DashboardLayout({ children }: { children: React.ReactNode }) {
-	return <DashboardWireframe>{children}</DashboardWireframe>;
 }
 ```
 
@@ -453,20 +472,20 @@ These components can be used outside the `<Wireframe>` context for custom layout
 
 ### Full-Height Content
 
-Setting `height: 100%` won't work on child content. The `<Wireframe>` root is `position: relative`, use `absolute inset-0` to fill the viewport, instead of `h-full`:
+Setting `height: 100%` won't work on child content. The `<Wireframe>` root is `position: relative`, use `absolute inset-0` to fill the viewport instead of `h-full`:
 
 ```tsx
 <Wireframe>
   <WireframeNav position="top">
     <div>Navigation</div>
   </WireframeNav>
-  
-	{ /* WILL NOT WORK */ }
-	{ /* <div className="h-full"> */ }
 
-  {/* Content that fills the entire viewport */}
+  {/* ❌ Won't work */}
+  {/* <div className="h-full"> */}
+
+  {/* ✅ Use this instead */}
   <div className="absolute inset-0">
-		{/* Your content here */}
+    {/* Your content here */}
   </div>
 </Wireframe>
 ```
