@@ -50,13 +50,6 @@ export const routeCatalog: RouteCatalogItem[] = [
 		preview: "header-sticky-sidebar",
 	},
 	{
-		href: "/layout6",
-		title: "Layout 6",
-		description:
-			"Nested sticky layers with static sidebar and bottom nav. Useful for studying z-index and sticky stacking behavior in complex scroll containers.",
-		preview: "sticky-layers",
-	},
-	{
 		href: "/blog",
 		title: "Blog",
 		description:

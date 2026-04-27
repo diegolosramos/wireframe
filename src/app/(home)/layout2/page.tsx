@@ -7,7 +7,11 @@ export default function Page() {
 	return (
 		<div className="bg-(image:--crossed-gradient) min-h-screen">
 			<WireframeStickyNav className="bg-red-300">
-				Nested Scrollable Areas Demo
+				<div className="flex h-full items-center justify-center">
+					<div className="border-2 border-black bg-white px-2 font-bold">
+						Nested Scrollable Areas Demo
+					</div>
+				</div>
 			</WireframeStickyNav>
 			<SidebarStatic />
 			<BottomNav />
@@ -15,11 +19,13 @@ export default function Page() {
 			{/* Main Content - Scrollable Container */}
 			<div className="mx-auto max-w-6xl p-4">
 				<h1 className="mb-6 font-bold text-3xl">
-					Nested Scrollable Areas Example
+					<div className="border-2 border-black bg-white px-2 font-bold">
+						Nested Scrollable Areas Example
+					</div>
 				</h1>
 
 				{/* Outer Scrollable Area */}
-				<div className="h-[600px] overflow-y-auto rounded-lg border-4 border-blue-500 bg-blue-50 p-6">
+				<div className="h-150 overflow-y-auto rounded-lg border-4 border-blue-500 bg-blue-50 p-6">
 					<h2 className="mb-4 font-bold text-2xl text-blue-900">
 						Outer Scroll Container (600px height)
 					</h2>
@@ -29,7 +35,7 @@ export default function Page() {
 					</p>
 
 					{/* First Nested Scrollable Area */}
-					<div className="mb-6 h-[300px] overflow-y-auto rounded-lg border-4 border-green-500 bg-green-50 p-4">
+					<div className="mb-6 h-75 overflow-y-auto rounded-lg border-4 border-green-500 bg-green-50 p-4">
 						<h3 className="mb-3 font-bold text-green-900 text-xl">
 							Nested Scroll Area 1 (300px height)
 						</h3>
@@ -58,7 +64,7 @@ export default function Page() {
 					</div>
 
 					{/* Second Nested Scrollable Area */}
-					<div className="mb-6 h-[250px] overflow-y-auto rounded-lg border-4 border-purple-500 bg-purple-50 p-4">
+					<div className="mb-6 h-62.5 overflow-y-auto rounded-lg border-4 border-purple-500 bg-purple-50 p-4">
 						<h3 className="mb-3 font-bold text-purple-900 text-xl">
 							Nested Scroll Area 2 (250px height)
 						</h3>
@@ -67,7 +73,7 @@ export default function Page() {
 						</p>
 
 						{/* Deeply Nested Scrollable Area */}
-						<div className="my-4 h-[150px] overflow-y-auto rounded-lg border-4 border-orange-500 bg-orange-50 p-3">
+						<div className="my-4 h-37.5 overflow-y-auto rounded-lg border-4 border-orange-500 bg-orange-50 p-3">
 							<h4 className="mb-2 font-bold text-orange-900">
 								Deeply Nested Scroll Area (150px height)
 							</h4>
