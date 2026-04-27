@@ -55,15 +55,14 @@ export default function Page() {
 ```
 
 > **⚠️ `h-full` does not work inside `<Wireframe>`.**
-> The root is `position: relative`, not a flex/grid container. Use `absolute inset-0` to fill the viewport instead:
+> This only matters if your content doesn't fill the entire screen and you need to vertically center it. Use `absolute inset-0` to fill the viewport instead:
 > ```tsx
 > {/* ❌ Won't work */}
-> <div className="h-full">...</div>
+> <div className="h-full flex items-center justify-center">...</div>
 >
 > {/* ✅ Use this */}
-> <div className="absolute inset-0">...</div>
+> <div className="absolute inset-0 flex items-center justify-center">...</div>
 > ```
-> You'll need to handle overflow and scrolling manually when using `absolute inset-0`.
 
 ## Configuration
 
@@ -417,7 +416,7 @@ These components can be used outside the `<Wireframe>` context for custom layout
 
 ### Full-Height Content
 
-Setting `height: 100%` won't work on child content. The `<Wireframe>` root is `position: relative`, use `absolute inset-0` to fill the viewport instead of `h-full`:
+Setting `height: 100%` won't work on child content. This only matters if your content doesn't fill the entire screen and you need to vertically center it. The `<Wireframe>` root is `position: relative`, use `absolute inset-0` to fill the viewport instead of `h-full`:
 
 ```tsx
 <Wireframe>
@@ -426,15 +425,15 @@ Setting `height: 100%` won't work on child content. The `<Wireframe>` root is `p
   </WireframeNav>
 
   {/* ❌ Won't work */}
-  {/* <div className="h-full"> */}
+  {/* <div className="h-full flex items-center justify-center"> */}
 
   {/* ✅ Use this instead */}
-  <div className="absolute inset-0">
+  <div className="absolute inset-0 flex items-center justify-center">
     {/* Your content here */}
   </div>
 </Wireframe>
 ```
 
-**Use cases:** Vertically centered layouts.
+**Use cases:** Vertically centered layouts where content is shorter than the viewport.
 
 **Note:** You'll need to handle overflow and scrolling manually when using `absolute inset-0`.
