@@ -296,6 +296,20 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
 The wireframe component includes comprehensive support for Progressive Web Apps (PWAs) with automatic handling of device safe areas.
 
+> **Required (Next.js App Router):** Export a `viewport` object from your root layout to enable proper PWA viewport behavior:
+>
+> ```tsx
+> import type { Viewport } from "next";
+>
+> export const viewport: Viewport = {
+> 	width: "device-width",
+> 	initialScale: 1,
+> 	maximumScale: 1,
+> 	viewportFit: "cover",
+> 	userScalable: false,
+> };
+> ```
+
 ### What are Safe Areas?
 
 Safe areas are the regions of the screen that are guaranteed to be visible on all devices, accounting for:
