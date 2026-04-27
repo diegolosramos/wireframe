@@ -13,20 +13,6 @@ A component system for building fixed/sticky navigation layouts with automatic c
 - **Multiple instances**: Use different configurations for different sections (e.g., blog vs. dashboard)
 - **PWA support**: Automatic safe area handling for mobile devices with notches, rounded corners, and home indicators
 
-## Examples
-
-Live demos of every layout pattern:
-
-| Layout | Description |
-|--------|-------------|
-| [Layout 1](https://ramoz.dev/wireframe/layout1) | Bottom navigation paired with a collapsible sidebar |
-| [Layout 2](https://ramoz.dev/wireframe/layout2) | Sticky top bar with static sidebar and bottom nav around nested scroll regions |
-| [Layout 3](https://ramoz.dev/wireframe/layout3) | Top and bottom navigation at the same time |
-| [Layout 4](https://ramoz.dev/wireframe/layout4) | Responsive nav that shifts position by viewport with a collapsible sidebar |
-| [Layout 5](https://ramoz.dev/wireframe/layout5) | Header plus sticky nav and sidebar |
-| [Layout 6](https://ramoz.dev/wireframe/layout6) | Nested sticky layers with static sidebar and bottom nav |
-| [Blog](https://ramoz.dev/wireframe/blog) | Responsive nav and sidebar in a separate route group |
-
 ## Installation
 
 **1. Add the component file**
