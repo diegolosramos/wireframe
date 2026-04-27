@@ -435,5 +435,3 @@ Setting `height: 100%` won't work on child content. This only matters if your co
 ```
 
 **Use cases:** Vertically centered layouts where content is shorter than the viewport.
-
-**Note:** You'll need to handle overflow and scrolling manually when using `absolute inset-0`.
