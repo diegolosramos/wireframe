@@ -8,8 +8,6 @@
 		var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif,
 		"Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 
-	--breakpoint-wf-nav: 40rem; /* sm: 40rem (640px) */
-
 	--diagonal-lines: repeating-linear-gradient(
 		45deg,
 		var(--border),

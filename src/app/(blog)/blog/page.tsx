@@ -1,10 +1,12 @@
-import { ResponsiveNav } from "@/components/wireframe/responsive-nav";
+import { BottomNav } from "@/components/wireframe/bottom-nav";
 import { Sidebar } from "@/components/wireframe/sidebar";
+import { TopNav } from "@/components/wireframe/top-nav";
 
 export default function Page() {
 	return (
 		<div className="bg-(image:--crossed-gradient)">
-			<ResponsiveNav />
+			<TopNav hideOn="mobile" />
+			<BottomNav hideOn="desktop" />
 			<Sidebar />
 			<div className="border-2 border-black bg-white px-2 font-bold">
 				Lorem ipsum dolor sit amet, consectetur adipisicing elit. Hic eos

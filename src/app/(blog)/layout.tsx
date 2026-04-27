@@ -1,6 +1,5 @@
-import { Wireframe } from "@/components/ui/wireframe";
-
 import type { Metadata } from "next";
+import { Wireframe } from "@/components/ui/wireframe";
 
 export const metadata: Metadata = {
 	title: "App Wireframe",
@@ -19,10 +18,6 @@ export default function Layout({
 					bottomRight: "navbar",
 					topLeft: "navbar",
 					topRight: "navbar",
-					responsive: {
-						left: "navbar",
-						right: "navbar",
-					},
 				},
 				cssVariables: {
 					// STICKY NAV

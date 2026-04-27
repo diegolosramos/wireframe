@@ -7,7 +7,7 @@ A component system for building fixed/sticky navigation layouts with automatic c
 ## What It Does
 
 - **Automatic spacing**: Content automatically adjusts margins based on navbar/sidebar presence and dimensions
-- **Multiple navigation types**: Fixed top/bottom navs, sticky navs, responsive navs, and collapsible sidebars
+- **Multiple navigation types**: Fixed top/bottom navs, sticky navs, and collapsible sidebars
 - **Corner control**: Define which element (navbar or sidebar) occupies each corner
 - **CSS variable-driven**: Configure all dimensions and offsets through CSS variables
 - **Multiple instances**: Use different configurations for different sections (e.g., blog vs. dashboard)
@@ -33,40 +33,12 @@ Live demos of every layout pattern:
 
 Copy [`wireframe.tsx`](/src/components/ui/wireframe.tsx) to your project: `@/components/ui/wireframe.tsx`
 
-**2. Configure TailwindCSS breakpoint**
-
-Add the responsive nav breakpoint to your CSS (controls when responsive nav switches from bottom to top):
-
-```css
-@theme {
-	--breakpoint-wf-nav: 40rem; /* 640px */
-}
-```
-
-**3. Wrap your app**
-
-```tsx
-// app/layout.tsx
-import { Wireframe } from "@/components/ui/wireframe";
-
-export default function RootLayout({
-	children,
-}: Readonly<{ children: React.ReactNode }>) {
-	return (
-		<html>
-			<body>
-				<Wireframe>{children}</Wireframe>
-			</body>
-		</html>
-	);
-}
-```
-
-**4. Build your layout**
+**2. Build your layout**
 
 ```tsx
 // app/page.tsx
 import {
+	Wireframe,
 	WireframeNav,
 	WireframeSidebar,
 	WireframeSidebarContent,
@@ -76,7 +48,7 @@ import {
 
 export default function Page() {
 	return (
-		<>
+		<Wireframe>
 			<WireframeNav position="top">
 				<div className="flex h-full items-center justify-between px-4">
 					<div>Logo</div>
@@ -91,7 +63,7 @@ export default function Page() {
 			<div className="p-4">
 				{/* Your content - margins adjust automatically */}
 			</div>
-		</>
+		</Wireframe>
 	);
 }
 ```
@@ -123,18 +95,12 @@ Control which element occupies each corner when navbars and sidebars overlap. De
 			topRight: "sidebar",
 			bottomLeft: "sidebar",
 			bottomRight: "sidebar",
-			responsive: {
-				left: "sidebar",
-				right: "sidebar",
-			},
 		},
 	}}
 >
 	{children}
 </Wireframe>
 ```
-
-Note: You can only configure both corners on each side (left/right) for responsive navs.
 
 ### CSS Variables
 
@@ -195,20 +161,16 @@ Root component that provides context. Wrap your app at the layout level.
 **Props:**
 - `config?` - Configuration object with the following optional properties:
   - `safeAreas?` - Enable PWA safe area insets (default: `true`)
-  - `corners?` - Control corner behavior for fixed and responsive navs
+  - `corners?` - Control corner behavior for fixed navs and sidebars
     ```tsx
     {
       topLeft?: "navbar" | "sidebar";      // default: "sidebar"
       topRight?: "navbar" | "sidebar";     // default: "sidebar"
       bottomLeft?: "navbar" | "sidebar";   // default: "sidebar"
       bottomRight?: "navbar" | "sidebar";  // default: "sidebar"
-      responsive?: {
-        left?: "navbar" | "sidebar";       // default: "sidebar"
-        right?: "navbar" | "sidebar";      // default: "sidebar"
-      };
     }
     ```
-  - `mobileBreakpoint?` - Viewport width (px) below which `isMobile` is `true`, used by `hide="mobile"` / `hide="desktop"` on `WireframeNav` and `WireframeSidebar` (default: `768`)
+  - `mobileBreakpoint?` - Viewport width (px) below which `isMobile` is `true`, used by `hideOn="mobile"` / `hideOn="desktop"` on `WireframeNav` and `WireframeSidebar` (default: `768`)
   - `cssVariables?` - Override default dimensions and spacing
     ```tsx
     Partial<Record<WireframeCSSVariables, string | number>>
@@ -216,14 +178,13 @@ Root component that provides context. Wrap your app at the layout level.
 
 ### `<WireframeNav>`
 
-Navbar component that can be fixed or responsive.
+Fixed navbar component.
 
 **Props:**
-- `position`: `"top"` | `"bottom"` | `"responsive"` (default: `"top"`)
+- `position`: `"top"` | `"bottom"` (default: `"top"`)
   - `"top"`: Fixed navbar at the top
   - `"bottom"`: Fixed navbar at the bottom
-  - `"responsive"`: Positions at bottom on mobile and top on desktop (breakpoint-based)
-- `hide`: `"mobile"` | `"desktop"` — conditionally render the nav only on one viewport size
+- `hideOn`: `"mobile"` | `"desktop"` — conditionally render the nav only on one viewport size
 
 ### `<WireframeStickyNav>`
 
@@ -236,7 +197,7 @@ Sidebar with collapsed/expanded states. Use the slot subcomponents inside to str
 **Props:**
 - `position`: `"left"` | `"right"` (default: `"left"`)
 - `collapsed`: `boolean` (default: `false`)
-- `hide`: `"mobile"` | `"desktop"` — conditionally render the sidebar only on one viewport size
+- `hideOn`: `"mobile"` | `"desktop"` — conditionally render the sidebar only on one viewport size
 
 ```tsx
 <WireframeSidebar position="left" collapsed={false}>
@@ -292,7 +253,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 					topRight: "navbar",
 					bottomLeft: "navbar",
 					bottomRight: "navbar",
-					responsive: { left: "navbar", right: "navbar" },
 				},
 				cssVariables: {
 					"--sticky-nav-height": 12,
@@ -325,7 +285,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 					topRight: "navbar",
 					bottomLeft: "navbar",
 					bottomRight: "navbar",
-					responsive: { left: "navbar", right: "navbar" },
 				},
 				cssVariables: {
 					"--sticky-nav-height": 12,
