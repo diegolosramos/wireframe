@@ -15,9 +15,11 @@ Building layouts with fixed navbars, collapsible sidebars, and PWA safe areas me
 
 ## Installation
 
-**1. Add the component file**
+**1. Install using shadcn**
 
-Copy [`wireframe.tsx`](/src/components/ui/wireframe.tsx) to your project: `@/components/ui/wireframe.tsx`
+```bash
+bunx --bun shadcn@latest add https://ramoz.dev/r/wireframe.json
+```
 
 **2. Build your layout**
 
