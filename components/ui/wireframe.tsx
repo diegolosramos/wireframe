@@ -2,13 +2,13 @@
 
 import type { ClassValue } from "clsx";
 import { createContext, useContext, useSyncExternalStore } from "react";
-import { cn } from "lib/utils";
+import { cn } from "@/lib/utils";
 
 const defaults = {
 	mobileBreakpoint: 768,
 	safeAreas: true,
 	cssVariables: {
-		"--sticky-nav-height": 12,
+		"--sticky-nav-height": 14,
 		"--sticky-nav-top-offset": 0,
 
 		"--top-nav-height": 14,
@@ -294,7 +294,7 @@ function Wireframe({
 }) {
 	const windowWidth = useWindowWidth();
 
-	if (!windowWidth) {
+	if (windowWidth === null) {
 		return null;
 	}
 
@@ -493,7 +493,7 @@ function WireframeSidebarHeader({
 }: React.ComponentProps<"div">) {
 	return (
 		<div
-			className={cn("flex-none", className)}
+			className={cn("h-(--top-nav-height) flex-none", className)}
 			data-slot="sidebar-header"
 			{...props}
 		>
@@ -510,7 +510,7 @@ function WireframeSidebarContent({
 	return (
 		<div
 			className={cn(
-				"min-h-0 flex-1 overflow-y-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden",
+				"scrollbar-none min-h-0 flex-1 overflow-y-auto [&::-webkit-scrollbar]:hidden",
 				className,
 			)}
 			data-slot="sidebar-content"
@@ -544,7 +544,7 @@ function WireframeSidebarFooter({
 }: React.ComponentProps<"div">) {
 	return (
 		<div
-			className={cn("flex-none", className)}
+			className={cn("h-(--bottom-nav-height) flex-none", className)}
 			data-slot="sidebar-footer"
 			{...props}
 		>

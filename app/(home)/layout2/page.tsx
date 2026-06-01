@@ -1,14 +1,14 @@
+import { WireframeStickyNav } from "@/components/ui/wireframe";
 import { nanoid } from "nanoid";
-import { WireframeStickyNav } from "components/ui/wireframe";
-import { BottomNav } from "components/wireframe/bottom-nav";
-import { SidebarStatic } from "components/wireframe/sidebar-static";
+import { BottomNav } from "@/components/wireframe/bottom-nav";
+import { SidebarStatic } from "@/components/wireframe/sidebar-static";
 
 export default function Page() {
 	return (
 		<div className="bg-(image:--crossed-gradient) min-h-screen">
 			<WireframeStickyNav className="bg-red-300">
 				<div className="flex h-full items-center justify-center">
-					<div className="border-2 border-black bg-white px-2 font-bold">
+					<div className="border-2 border-foreground bg-background px-2 font-bold">
 						Nested Scrollable Areas Demo
 					</div>
 				</div>
@@ -19,7 +19,7 @@ export default function Page() {
 			{/* Main Content - Scrollable Container */}
 			<div className="mx-auto max-w-6xl p-4">
 				<h1 className="mb-6 font-bold text-3xl">
-					<div className="border-2 border-black bg-white px-2 font-bold">
+					<div className="border-2 border-foreground bg-background px-2 font-bold">
 						Nested Scrollable Areas Example
 					</div>
 				</h1>

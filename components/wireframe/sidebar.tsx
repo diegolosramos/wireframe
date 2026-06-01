@@ -31,14 +31,14 @@ export function Sidebar() {
 	return (
 		<WireframeSidebar collapsed={collapsed} position={position}>
 			<WireframeSidebarHeader>
-				<div className="bg-(image:--crossed-gradient) flex w-full items-center justify-center bg-pink-500/40 p-4">
+				<div className="bg-(image:--crossed-gradient) flex h-full w-full items-center justify-center bg-pink-500/40">
 					<div className="border-2 border-black bg-white px-2 font-bold">
 						HEADER
 					</div>
 				</div>
 			</WireframeSidebarHeader>
 			<WireframeSidebarContent>
-				<div className="bg-(image:--crossed-gradient) flex min-h-full w-full flex-col items-center justify-center gap-4 bg-pink-500/40 p-4">
+				<div className="bg-(image:--crossed-gradient) flex min-h-full w-full flex-col items-center justify-center gap-4 bg-pink-500/40">
 					<button
 						aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
 						className={controlClasses}
@@ -66,7 +66,7 @@ export function Sidebar() {
 				</div>
 			</WireframeSidebarContent>
 			<WireframeSidebarFooter>
-				<div className="bg-(image:--crossed-gradient) flex w-full items-center justify-center bg-pink-500/40 p-4">
+				<div className="bg-(image:--crossed-gradient) flex h-full w-full items-center justify-center bg-pink-500/40">
 					<div className="border-2 border-black bg-white px-2 font-bold">
 						FOOTER
 					</div>
