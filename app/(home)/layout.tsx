@@ -1,4 +1,4 @@
-import { Wireframe } from "@/components/ui/wireframe";
+import { Wireframe } from "components/ui/wireframe";
 
 import type { Metadata } from "next";
 

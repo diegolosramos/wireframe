@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Wireframe } from "@/components/ui/wireframe";
+import { Wireframe } from "components/ui/wireframe";
 
 export const metadata: Metadata = {
 	title: "App Wireframe",

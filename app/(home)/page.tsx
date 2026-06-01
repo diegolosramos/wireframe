@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { type RoutePreviewKind, routeCatalog } from "@/lib/route-catalog";
+import { type RoutePreviewKind, routeCatalog } from "lib/route-catalog";
 
 function RoutePreview({ preview }: { preview: RoutePreviewKind }) {
 	if (preview === "top-bottom") {

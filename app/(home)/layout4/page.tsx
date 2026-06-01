@@ -1,6 +1,6 @@
-import { BottomNav } from "@/components/wireframe/bottom-nav";
-import { Sidebar } from "@/components/wireframe/sidebar";
-import { TopNav } from "@/components/wireframe/top-nav";
+import { BottomNav } from "components/wireframe/bottom-nav";
+import { Sidebar } from "components/wireframe/sidebar";
+import { TopNav } from "components/wireframe/top-nav";
 
 export default function Page() {
 	return (

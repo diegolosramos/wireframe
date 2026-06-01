@@ -1,7 +1,7 @@
 import "@/styles/globals.css";
 
 import type { Metadata, Viewport } from "next";
-import { RoutesButton } from "@/components/wireframe/routes-button";
+import { RoutesButton } from "components/wireframe/routes-button";
 
 export const viewport: Viewport = {
 	width: "device-width",

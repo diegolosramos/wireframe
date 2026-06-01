@@ -1,0 +1,21 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry.json",
+  "name": "Diego Ramos",
+  "homepage": "https://github.com/diegolosramos/wireframe",
+  "items": [
+    {
+      "name": "wireframe",
+      "type": "registry:item",
+      "title": "Wireframe",
+      "description": "A component system for building fixed/sticky navigation layouts with automatic content spacing.",
+      "registryDependencies": [],
+      "files": [
+        {
+          "path": "components/ui/wireframe.tsx",
+          "type": "registry:file",
+          "target": "~/components/ui/wireframe.tsx"
+        }
+      ]
+    }
+  ]
+}

@@ -18,7 +18,7 @@ Building layouts with fixed navbars, collapsible sidebars, and PWA safe areas me
 **1. Install using shadcn**
 
 ```bash
-bunx --bun shadcn@latest add diegolosramos/niwa/wireframe
+bunx --bun shadcn@latest add diegolosramos/wireframe/wireframe
 ```
 
 **2. Build your layout**

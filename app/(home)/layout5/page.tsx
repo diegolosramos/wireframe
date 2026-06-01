@@ -1,5 +1,5 @@
-import { Sidebar } from "@/components/wireframe/sidebar";
-import { StickyNav } from "@/components/wireframe/sticky-nav";
+import { Sidebar } from "components/wireframe/sidebar";
+import { StickyNav } from "components/wireframe/sticky-nav";
 
 export default function Page() {
 	return (

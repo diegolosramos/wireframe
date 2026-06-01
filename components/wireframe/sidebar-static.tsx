@@ -3,7 +3,7 @@ import {
 	WireframeSidebarContent,
 	WireframeSidebarFooter,
 	WireframeSidebarHeader,
-} from "@/components/ui/wireframe";
+} from "components/ui/wireframe";
 
 export function SidebarStatic() {
 	return (

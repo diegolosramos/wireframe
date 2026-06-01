@@ -1,4 +1,4 @@
-import { WireframeStickyNav } from "@/components/ui/wireframe";
+import { WireframeStickyNav } from "components/ui/wireframe";
 
 export function StickyNav() {
 	return (

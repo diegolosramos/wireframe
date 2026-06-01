@@ -1,4 +1,4 @@
-import { WireframeNav } from "@/components/ui/wireframe";
+import { WireframeNav } from "components/ui/wireframe";
 
 export function BottomNav(
 	props: Omit<React.ComponentProps<typeof WireframeNav>, "position">,

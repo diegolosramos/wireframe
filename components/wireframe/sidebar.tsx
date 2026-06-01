@@ -8,7 +8,7 @@ import {
 	WireframeSidebarFooter,
 	WireframeSidebarHeader,
 	type WireframeSidebarPosition,
-} from "@/components/ui/wireframe";
+} from "components/ui/wireframe";
 
 const controlClasses =
 	"inline-flex size-11 items-center justify-center rounded-full border-2 border-black bg-white shadow-[4px_4px_0_0_#000] transition-transform hover:-translate-y-0.5 active:translate-y-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black";

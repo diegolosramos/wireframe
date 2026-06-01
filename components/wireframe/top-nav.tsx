@@ -1,4 +1,4 @@
-import { WireframeNav } from "@/components/ui/wireframe";
+import { WireframeNav } from "components/ui/wireframe";
 
 export function TopNav(props: React.ComponentProps<typeof WireframeNav>) {
 	return (

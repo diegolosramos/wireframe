@@ -1,7 +1,7 @@
 import { nanoid } from "nanoid";
-import { WireframeStickyNav } from "@/components/ui/wireframe";
-import { BottomNav } from "@/components/wireframe/bottom-nav";
-import { SidebarStatic } from "@/components/wireframe/sidebar-static";
+import { WireframeStickyNav } from "components/ui/wireframe";
+import { BottomNav } from "components/wireframe/bottom-nav";
+import { SidebarStatic } from "components/wireframe/sidebar-static";
 
 export default function Page() {
 	return (
